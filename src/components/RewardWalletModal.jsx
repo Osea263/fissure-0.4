@@ -89,7 +89,7 @@ export const RewardWalletModal = ({ onClose, score, setHasSubmittedWallet, hasSu
     return (
         // Using original font-sans from your font fix
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4 font-sans text-white"> 
-            <div className="bg-gray-900 p-8 rounded-sm w-full max-w-md border-2 border-emerald-500 shadow-2xl space-y-6">
+            <div className="bg-gray-900 p-6 md:p-10 rounded-sm shadow-2xl max-w-sm w-full border-4 border-emerald-500 space-y-6 text-center">
                 <h3 className="text-3xl font-bold text-emerald-400 border-b border-gray-700 pb-2">
                     REWARD CLAIM PROTOCOL
                 </h3>

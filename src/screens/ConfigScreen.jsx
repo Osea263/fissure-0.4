@@ -17,13 +17,13 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
 
     return (
         <div className="space-y-8 p-6 bg-gray-900 rounded-sm shadow-lg border border-gray-700 text-white"> 
-            <h2 className="text-3xl font-bold text-emerald-400 mb-6 text-center border-b border-gray-700 pb-3"> THE ARCHITECT'S EXAMINATION</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-emerald-400 mb-6 border-b border-gray-700 pb-3"> THE ARCHITECT'S EXAMINATION</h2>
             
             {error && <p className="bg-red-900/40 text-red-400 p-3 rounded-sm border border-red-700 font-semibold">{error}</p>}
 
             <div className="text-center bg-gray-800 p-4 rounded-sm border border-gray-700 mb-6">
                 <p className="text-xl text-gray-300 font-medium">Accumulated Score:</p>
-                <p className="text-4xl font-extrabold text-emerald-500">{score} POINTS</p>
+                <p className="text-3xl md:text-4xl font-extrabold text-emerald-500">{score} POINTS</p>
             </div>
 
             {score >= REWARD_THRESHOLD && !hasSubmittedWallet && (
@@ -39,7 +39,7 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
             
             <div>
                 <label className="block text-xl font-semibold mb-3 text-gray-200">1. Select Categories</label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {CATEGORIES.map(cat => (
                         <ConsoleButton 
                             key={cat}
@@ -58,7 +58,7 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
 
             <div>
                 <label className="block text-xl font-semibold mb-3 text-gray-200">2. Select Difficulty:</label>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-3 gap-2 md:gap-3">
                     {['Easy', 'Medium', 'Hard'].map(diff => (
                         <ConsoleButton 
                             key={diff}
@@ -96,7 +96,7 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
 
             <div>
                 <label className="block text-xl font-semibold mb-3 text-gray-200">4. Number of Questions:</label>
-                <div className="grid grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                     {QuestionCounts.map(count => (
                         <ConsoleButton
                             key={count}

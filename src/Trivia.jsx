@@ -209,7 +209,8 @@ useEffect(() => {
         : 'bg-emerald-700 hover:bg-emerald-600 text-white border-2 border-emerald-800 shadow-lg';
 
     return (
-        <div className="min-h-screen bg-gray-950 text-white flex justify-center items-start pt-10 pb-10 font-sans">
+        <div className="min-h-screen bg-gray-950 text-white flex justify-center items-start 
+                       py-6 sm:py-10 px-4">
             
             {score >= REWARD_THRESHOLD && (
         <button
@@ -231,7 +232,9 @@ useEffect(() => {
         </button>
     )}
             
-            <div className="w-full max-w-2xl bg-gray-900 p-8 rounded-sm shadow-xl border border-gray-700">
+            <div className="w-full max-w-2xl bg-gray-900 
+                           p-4 md:p-8 
+                           rounded-sm shadow-xl border border-gray-700">
                 {renderBaseView()}
             </div>
             

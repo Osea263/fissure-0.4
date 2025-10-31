@@ -25,7 +25,7 @@ export const PasswordGate = ({ onUnlock }) => {
 
     return (
         <div className="fixed inset-0 bg-gray-950 flex items-center justify-center z-50 p-4 font-sans text-white">
-            <div className="bg-gray-900 p-8 md:p-10 rounded-sm shadow-2xl max-w-sm w-full border-4 border-emerald-500 space-y-6 text-center">
+            <div className="bg-gray-900 p-6 md:p-10 rounded-sm shadow-2xl max-w-sm w-full border-4 border-emerald-500 space-y-6 text-center">
                 <h2 className="text-3xl font-bold text-emerald-400">Fissure 0.4 </h2>
                 <p className="text-gray-400">Enter the L2 authentication key to access the console.</p>
                 
