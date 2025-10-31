@@ -82,7 +82,11 @@ export const RewardWalletModal = ({ onClose, score, setHasSubmittedWallet, hasSu
     };
     
     const shareText = encodeURIComponent(
-        `I scored ${score} points on the MegaETH Trivia Console and proved my L2 knowledge! Test your skills and try to beat my score. @MegaETH_XYZ #MegaETH #L2`
+        `Just crushed the Architect's Examination by @voidoteth and scored ${score} points on the MegaETH Trivia
+
+Spoiler alert: The questions were brutal. Good luck trying to beat my score. 🧠
+
+@megaeth #thevoidiscoming`
     );
     const shareLink = `https://twitter.com/intent/tweet?text=${shareText}`;
 
@@ -162,7 +166,7 @@ export const RewardWalletModal = ({ onClose, score, setHasSubmittedWallet, hasSu
                                 disabled={!isValidAddress || !isValidXHandle || isSubmitting}
                                 className="flex-1 bg-emerald-700 hover:bg-emerald-600 text-white border-emerald-800 disabled:opacity-50"
                             >
-                                {isSubmitting ? 'Processing...' : 'Submit Wallet & Handle'}
+                                {isSubmitting ? 'Processing...' : 'Submit'}
                             </ConsoleButton>
                             <ConsoleButton 
                                 onClick={onClose} 
