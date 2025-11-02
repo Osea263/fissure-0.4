@@ -1,15 +1,32 @@
 import React, { useState } from 'react';
 import ConsoleButton from './ConsoleButton';
+import { CORRECT_PASSWORD } from '../lib/constants';
 
-
-export const PasswordGate = ({ onUnlock }) => {
+// Accept 'authError' prop again
+export const PasswordGate = ({ onUnlock, authError }) => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const CORRECT_PASSWORD = 'B4201C3F91A2'; 
+    // Add a loading state again
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = () => {
+    // Make handleSubmit async again
+    const handleSubmit = async () => {
+        if (isLoading) return;
+
         if (password.toLowerCase() === CORRECT_PASSWORD.toLowerCase()) {
-            onUnlock(true);
+            setIsLoading(true);
+            setError('');
+            
+            // Await the onUnlock promise
+            // onUnlock (which will be handleUnlock) returns true/false
+            const authSuccess = await onUnlock();
+            
+            if (!authSuccess) {
+                // If auth fails, show the error from the auth hook
+                setIsLoading(false);
+            }
+            // If auth succeeds, the app will unmount this component
+            
         } else {
             setError('ACCESS DENIED: Invalid key. Please try again.');
             setPassword('');
@@ -31,18 +48,23 @@ export const PasswordGate = ({ onUnlock }) => {
                 
                 <input 
                     type="password" 
-                    placeholder="Enter Secret Key (megaeth)" 
+                    placeholder="Enter Secret Key" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     onKeyDown={handleKeyDown}
+                    disabled={isLoading}
                     className="w-full p-3 rounded-sm bg-gray-800 text-white border border-gray-700 focus:ring-2 focus:ring-emerald-500 transition" 
                 />
                 
-                <ConsoleButton onClick={handleSubmit}>
-                    Authenticate
+                <ConsoleButton onClick={handleSubmit} disabled={isLoading}>
+                    {/* Show loading state */}
+                    {isLoading ? 'Authenticating...' : 'Authenticate'}
                 </ConsoleButton>
 
-                <p className="text-red-500 font-semibold h-4">{error}</p>
+                {/* Show password error OR auth error from the hook */}
+                <p className="text-red-500 font-semibold h-4">
+                    {error || authError}
+                </p>
             </div>
         </div>
     );

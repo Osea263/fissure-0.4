@@ -1,71 +1,51 @@
 import React, { useState, useCallback } from 'react';
+// --- IMPORT SUPABASE API ---
+import { submitWalletForReward } from '../api/supabaseApi'; 
+import  ConsoleButton  from './ConsoleButton';
 
-// --- IMPORTANT ---
-// We no longer import `submitWalletForReward` from firestore.js
-// import { submitWalletForReward } from '../api/firestore'; 
-
-// We import ConsoleButton since you are still using the original UI
-import ConsoleButton from './ConsoleButton';
-
-
-// --- New Minimalistic RewardCard ---
+// --- RewardCard remains the same ---
 const RewardCard = ({ score }) => (
     <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 max-w-xs mx-auto mb-6 shadow-md text-white text-center font-sans">
-        
         <p className="text-sm font-semibold text-gray-400 uppercase tracking-widest">
             Score Recorded
         </p>
-        
         <p className="text-6xl font-extrabold text-emerald-400 mt-2">
             {score}
             <span className="text-4xl text-gray-300 ml-2">pts</span>
         </p>
-
     </div>
 );
 
 
-export const RewardWalletModal = ({ onClose, score, setHasSubmittedWallet, hasSubmittedWallet, db, userId }) => {
+// --- Accept 'supabase' and 'userId' props ---
+export const RewardWalletModal = ({ onClose, score, setHasSubmittedWallet, hasSubmittedWallet, supabase, userId }) => {
     const [address, setAddress] = useState('');
     const [xHandle, setXHandle] = useState(''); 
     const [submissionStatus, setSubmissionStatus] = useState('Ready'); 
     const [submissionError, setSubmissionError] = useState(null);
     
-    // --- THIS IS THE UPDATED FUNCTION ---
-    // It is no longer 'async' and does not call Firebase.
-    const handleSubmit = useCallback(() => {
-        // Prevent double-click
+    // --- UPDATED SUBMIT FUNCTION ---
+    const handleSubmit = useCallback(async () => {
         if (submissionStatus === 'Submitting...' || !address || !xHandle) return;
 
-        setSubmissionStatus('Submitting...'); // 1. Set local state to "loading"
+        setSubmissionStatus('Submitting...');
         setSubmissionError(null);
 
-        // --- 2. Perform Local Validation ---
-        if (address.length !== 42 || !address.startsWith('0x')) {
-             setSubmissionError("Invalid Ethereum address format. Must be 42 characters long and start with 0x.");
-             setSubmissionStatus('Ready'); // Reset status to allow retry
-             return;
+        try {
+            // --- CALL THE SUPABASE API FUNCTION ---
+            await submitWalletForReward(supabase, userId, address, xHandle, score);
+
+            // --- If it SUCCEEDS ---
+            setSubmissionStatus('Submission Successful!');
+            setHasSubmittedWallet(true);
+
+        } catch (error) {
+            // --- If it FAILS ---
+            setSubmissionStatus('Error'); 
+            setSubmissionError(error.message); 
         }
-        if (xHandle.length < 2 || !xHandle.startsWith('@')) {
-            setSubmissionError("Invalid X handle format. Must start with '@' and be at least 2 characters long.");
-            setSubmissionStatus('Ready'); // Reset status to allow retry
-            return;
-        }
-        // --- End Validation ---
-
-        
-        // --- 3. If Validation Passes, Just Update the UI ---
-        // We simulate a short delay to make the "Submitting..." state visible
-        setTimeout(() => {
-            // This updates the local UI
-            setSubmissionStatus('Submission Successful!'); 
-            // This updates App.jsx, which triggers the localStorage save
-            setHasSubmittedWallet(true); 
-        }, 500); // 0.5 second delay
-
-    }, [db, userId, address, xHandle, score, submissionStatus, setHasSubmittedWallet]);
-    // --- END OF FIX ---
-
+    }, [supabase, userId, address, xHandle, score, submissionStatus, setHasSubmittedWallet]);
+    // --- END UPDATE ---
 
     const isValidAddress = address.length === 42 && address.startsWith('0x');
     const isValidXHandle = xHandle.length > 1 && xHandle.startsWith('@');
@@ -82,32 +62,29 @@ export const RewardWalletModal = ({ onClose, score, setHasSubmittedWallet, hasSu
     };
     
     const shareText = encodeURIComponent(
-        `Just crushed the Architect's Examination by @voidoteth and scored ${score} points on the MegaETH Trivia
-
-Spoiler alert: The questions were brutal. Good luck trying to beat my score. 🧠
-
-@megaeth #thevoidiscoming`
+        `I scored ${score} points on the MegaETH Trivia Console and proved my L2 knowledge! Test your skills and try to beat my score. @MegaETH_XYZ #MegaETH #L2`
     );
     const shareLink = `https://twitter.com/intent/tweet?text=${shareText}`;
 
+    // --- The rest of the JSX remains identical to your original ---
+    // (No changes needed to the render/return part)
+    
     return (
-        // Using original font-sans from your font fix
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4 font-sans text-white"> 
-            <div className="bg-gray-900 p-6 md:p-10 rounded-sm shadow-2xl max-w-sm w-full border-4 border-emerald-500 space-y-6 text-center">
+            <div className="bg-gray-900 p-6 md:p-8 rounded-sm w-full max-w-md border-2 border-emerald-500 shadow-2xl space-y-6">
                 <h3 className="text-3xl font-bold text-emerald-400 border-b border-gray-700 pb-2">
                     REWARD CLAIM PROTOCOL
                 </h3>
                 
-                {/* This is the new minimalistic card */}
                 <RewardCard score={score} />
 
                 {submissionStatus === 'Submission Successful!' || hasSubmittedWallet ? (
-                    <>
+                     <>
                         <p className="text-xl text-emerald-400 font-semibold">
                             ✅ Submission Recorded!
                         </p>
                         <p className="text-gray-400 text-sm">
-                            Your details have been successfully recorded in this session.
+                            Your details have been successfully recorded in the database.
                         </p>
                         <a 
                             href={shareLink} 
@@ -166,7 +143,7 @@ Spoiler alert: The questions were brutal. Good luck trying to beat my score. �
                                 disabled={!isValidAddress || !isValidXHandle || isSubmitting}
                                 className="flex-1 bg-emerald-700 hover:bg-emerald-600 text-white border-emerald-800 disabled:opacity-50"
                             >
-                                {isSubmitting ? 'Processing...' : 'Submit'}
+                                {isSubmitting ? 'Processing...' : 'Submit Wallet & Handle'}
                             </ConsoleButton>
                             <ConsoleButton 
                                 onClick={onClose} 

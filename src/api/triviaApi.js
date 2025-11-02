@@ -10,7 +10,7 @@ export const fetchQuestions = async (config) => {
 
     if (config.difficulty === 'Easy') {
         topics = 'What is MegaEth, Blockchain Fundamentals, what is a wallet, what is Ethereum, what is a dApp, and what is a Layer 2 (L2).';
-        difficultyDescription = 'Easy. The questions must be suitable for a beginner who has just entered the Web3 space, focusing on the basics of MegaEth, How megaEth Works, the Solutions MEgaEth provides, How is MegaEth different form other layer 2 blcochain. Avoid deep technical jargon.';
+        difficultyDescription = 'Easy. The questions must be suitable for a beginner who has just entered the Web3 space and also the basics of MegaEth, the Solutions does MEgaEth provides, How is MegaEth different form other layer 2 blcochain. Avoid deep technical jargon.';
     } else if (config.difficulty === 'Medium') {
         topics = 'Layer 2 Rollups (General), ZK vs. Optimistic Rollups, and MegaETH Architecture (basic concepts).';
         difficultyDescription = 'Medium. The user understands basic blockchain concepts but wants to learn about L2s and MegaETH specifically.';
