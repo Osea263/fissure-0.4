@@ -134,7 +134,7 @@ export const GameScreen = ({ questions, currentQIndex, handleAnswer, config, sco
             </div>
 
             <div className="bg-gray-800 p-6 rounded-sm border border-gray-700">
-                <p className="text-2xl font-medium text-white leading-relaxed">{question}</p>
+                <p className="text-center md:text-2xl text-white leading-normal">{question}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -144,7 +144,7 @@ export const GameScreen = ({ questions, currentQIndex, handleAnswer, config, sco
                         onClick={() => submitAnswer(option)}
                         // Disable buttons when time is up
                         disabled={isAnswered || timeLeft === 0}
-                        className={`py-3 px-4 text-left text-lg font-medium rounded-sm border-2 transition duration-300 break-words
+                        className={`py-3 px-4 text-left text-base md:text-lg font-medium rounded-sm border-2 transition duration-300 break-words
                             ${(isAnswered || timeLeft === 0) ? '' : 'hover:scale-[1.01] active:scale-100'}
                             ${getOptionClass(option)}`}
                     >

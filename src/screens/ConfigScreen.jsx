@@ -17,7 +17,7 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
 
     return (
         <div className="space-y-8 p-6 bg-gray-900 rounded-sm shadow-lg border border-gray-700 text-white"> 
-            <h2 className="text-2xl md:text-3xl font-bold text-emerald-400 mb-6 border-b border-gray-700 pb-3"> THE ARCHITECT'S EXAMINATION</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-emerald-400 mb-6 border-b border-gray-700 pb-3 text-center"> THE ARCHITECT'S EXAMINATION</h2>
             
             {error && <p className="bg-red-900/40 text-red-400 p-3 rounded-sm border border-red-700 font-semibold">{error}</p>}
 
@@ -45,7 +45,7 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
                             key={cat}
                             onClick={() => handleCategoryChange(cat)}
                             disabled={cat !== FIXED_CATEGORY}
-                            className={`py-2 text-base 
+                            className={` 
                                 ${cat === FIXED_CATEGORY
                                 ? 'bg-emerald-600 text-white border-emerald-700 hover:bg-emerald-500' 
                                 : 'bg-gray-800 text-gray-500 border-gray-700 cursor-not-allowed'}`}
