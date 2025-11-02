@@ -102,7 +102,7 @@ export const GameScreen = ({ questions, currentQIndex, handleAnswer, config, sco
     const { question, options, correctAnswer } = questionData;
 
     return (
-        <div className="space-y-8 p-6 bg-gray-900 rounded-sm shadow-lg border border-gray-700 text-white"> 
+        <div className="space-y-10 text-white"> 
             <div className="text-center mb-4">
                 <h3 className="text-2xl font-bold text-emerald-400">
                     QUESTION {currentQIndex + 1} / {questions.length}
