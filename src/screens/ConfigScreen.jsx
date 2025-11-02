@@ -16,7 +16,7 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
     const QuestionCounts = [5, 10, 15, 20];
 
     return (
-        <div className="space-y-8 p-6 bg-gray-900 rounded-sm shadow-lg border border-gray-700 text-white"> 
+        <div className="space-y-10  text-white"> 
             <h2 className="text-2xl md:text-3xl font-bold text-emerald-400 mb-6 border-b border-gray-700 pb-3 text-center"> THE ARCHITECT'S EXAMINATION</h2>
             
             {error && <p className="bg-red-900/40 text-red-400 p-3 rounded-sm border border-red-700 font-semibold">{error}</p>}
@@ -39,7 +39,7 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
             
             <div>
                 <label className="block text-xl font-semibold mb-3 text-gray-200">1. Select Categories</label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-3xl">
                     {CATEGORIES.map(cat => (
                         <ConsoleButton 
                             key={cat}
@@ -50,7 +50,7 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
                                 ? 'bg-emerald-600 text-white border-emerald-700 hover:bg-emerald-500' 
                                 : 'bg-gray-800 text-gray-500 border-gray-700 cursor-not-allowed'}`}
                         >
-                            {cat} {cat === FIXED_CATEGORY ? '' : '(LOCKED)'}
+                            {cat} {cat === FIXED_CATEGORY ? '' : '⊘'}
                         </ConsoleButton>
                     ))}
                 </div>
@@ -63,7 +63,7 @@ export const ConfigScreen = ({ config, setConfig, startTrivia, error, score, set
                         <ConsoleButton 
                             key={diff}
                             onClick={() => setConfig(prev => ({ ...prev, difficulty: diff }))}
-                            className={`py-2 text-base 
+                            className={`py-2 text-base
                                 ${config.difficulty === diff 
                                 ? 'bg-emerald-600 text-white border-emerald-700 hover:bg-emerald-500' 
                                 : 'bg-gray-800 text-gray-300 border-gray-700 hover:bg-gray-700'}`}

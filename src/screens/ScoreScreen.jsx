@@ -11,15 +11,15 @@ export const ScoreScreen = ({ score, totalQuestions, resetGame }) => (
             <p className="text-4xl md:text-7xl font-extrabold my-4 text-emerald-500">
                 {score} <span className="text-xl md:text-4xl text-gray-400">POINTS</span>
             </p>
-            <p className=" text-center text-gray-400">
-                {score >= REWARD_THRESHOLD ? "Reward threshold reached! Click the SUBMIT WALLET button! Above Or Keep Playing To Increase Your Score.": 
+            <p className=" text-left text-gray-400">
+                {score >= REWARD_THRESHOLD ? "Reward threshold reached! Click the SUBMIT WALLET button! Above Or Keep Playing To Increase Your Score (Score Carries Over!).": 
                  score > 50 ? "Solid performance! Keep scaling." : 
                  "Time to read up on ZK Rollups and MegaETH!"}
             </p>
         </div>
 
         <ConsoleButton onClick={resetGame} className="w-2/3 md:text-xl">
-            PLAY AGAIN (Score Carries Over!)
+            PLAY AGAIN 
         </ConsoleButton>
     </div>
 );

@@ -34,10 +34,10 @@ export const SUPPORTED_LANGUAGES = [
 ];
 
 export const CATEGORIES = [
-    'Blockchain Fundamentals',
-    'Ethereum (The Protocol)',
+    'Blockchain Basics',
+    'Ethereum',
     'Layer 1 Concepts',
-    'Layer 2 Rollups (General)',
+    'Layer 2 Rollups',
     'MegaETH Architecture'
 ];
 
