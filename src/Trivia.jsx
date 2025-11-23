@@ -208,7 +208,7 @@ export default function App() {
     }
     
     // If we're here, user is unlocked AND auth is ready
-    const floatingButtonClass = bg-gray-700 text-gray-400 border-gray-600 cursor-default';
+    const floatingButtonClass = 'bg-gray-700 text-gray-400 border-gray-600 cursor-default';
 
     return (
         <div className="min-h-screen bg-gray-950 text-white flex justify-center items-start py-6 sm:py-10 px-4 font-sans">
