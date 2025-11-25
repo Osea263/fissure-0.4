@@ -229,28 +229,23 @@ export default function App() {
     }
     
     // If we're here, user is unlocked AND auth is ready
-    const floatingButtonClass = hasSubmittedWallet
-        ? 'bg-gray-700 text-gray-400 border-gray-600 cursor-default'
-        : 'bg-emerald-700 hover:bg-emerald-600 text-white border-2 border-emerald-800 shadow-lg';
+    const floatingButtonClass = 'bg-gray-700 text-gray-400 border-gray-600 cursor-default';
 
     return (
         <div className="min-h-screen bg-gray-950 text-white flex justify-center items-start py-6 sm:py-10 px-4 font-sans">
             
             {score >= REWARD_THRESHOLD && (
                 <button
-                    onClick={() => setShowWalletPrompt(true)}
+                    onClick={() => {}}
                     // This logic is now robust
-                    disabled={hasSubmittedWallet || isCheckingStatus}
+                    disabled={true}
                     className={`fixed top-4 right-4 z-50 py-2 px-4 text-md font-bold rounded-sm transition duration-300 shadow-md ${floatingButtonClass}`}
-                    title={
-                        isCheckingStatus ? "Checking submission status..." :
-                        hasSubmittedWallet ? "Wallet address recorded." : "Submit your wallet for reward!"
-                    }
+                    title= "Submissions closed."
                 >
                     <span role="img" aria-label="Wallet Icon" className="mr-2">
-                        {isCheckingStatus ? '...' : hasSubmittedWallet ? '✅' : '🔗'}
+                        {hasSubmittedWallet ? '✅' : '🔒'}
                     </span> 
-                    {isCheckingStatus ? 'CHECKING...' : hasSubmittedWallet ? 'WALLET SUBMITTED' : 'SUBMIT WALLET'}
+                    {hasSubmittedWallet ? 'WALLET SUBMITTED' : 'SUBMISSIONS CLOSED'}
                 </button>
             )}
             
