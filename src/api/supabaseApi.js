@@ -24,9 +24,7 @@ export const fetchSubmissionStatus = async (supabase, userId) => {
     }
 };
 
-/**
- * Submits the user's wallet and X handle to Supabase.
- */
+
 export const submitWalletForReward = async (supabase, userId, walletAddress, xHandle, score) => {
     // Validation
     if (walletAddress.length !== 42 || !walletAddress.startsWith('0x')) {
@@ -62,5 +60,28 @@ export const submitWalletForReward = async (supabase, userId, walletAddress, xHa
     } catch (error) {
         console.error("Submission Error:", error);
         throw new Error(`Submission failed: ${error.message}`);
+    }
+};
+
+
+export const checkWallet = async (supabase, walletAddress) => {
+    if (!supabase || !walletAddress) {
+        throw new Error("Connection not ready or no address provided.");
+    }
+    
+    try {
+        // This calls the SQL function you created
+        const { data, error } = await supabase
+            .rpc('check_wallet_submission', { 
+                search_address: walletAddress 
+            });
+
+        if (error) {
+            throw error;
+        }
+        return data; // Returns [ { found_x_handle, found_score } ] or []
+    } catch (error) {
+        console.error("Error checking wallet:", error);
+        throw new Error(`RPC Error: ${error.message}`);
     }
 };

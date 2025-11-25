@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
-// --- IMPORT SUPABASE ---
 import { useSupabaseAuth } from './hooks/useSupabaseAuth';
 import { fetchSubmissionStatus } from './api/supabaseApi'; 
-// --- END IMPORTS ---
-
 import { fetchQuestions as apiFetchQuestions } from './api/triviaApi'; 
-
-// Import Constants
 import { VIEWS, POINTS_MAP, FIXED_CATEGORY, REWARD_THRESHOLD, IS_API_KEY_MISSING } from './lib/constants';
 
-// Import Components and Screens
 import { PasswordGate } from './components/PasswordGate';
 import { LoadingScreen } from './components/LoadingScreen';
 import { RewardWalletModal } from './components/RewardWalletModal';
@@ -17,8 +11,11 @@ import { ConfigScreen } from './screens/ConfigScreen';
 import { GameScreen } from './screens/GameScreen';
 import { ScoreScreen } from './screens/ScoreScreen';
 
-// --- State & Storage (No changes here) ---
+
 const SCORE_STORAGE_KEY = 'megaEthTriviaScore';
+const UNLOCK_STORAGE_KEY = 'megaEthTriviaUnlocked';
+const GAMES_PLAYED_KEY = 'megaEthTriviaGamesPlayed';
+
 const getInitialScore = () => {
   try {
     const savedScore = localStorage.getItem(SCORE_STORAGE_KEY);
@@ -27,7 +24,7 @@ const getInitialScore = () => {
     return 0;
   }
 };
-const UNLOCK_STORAGE_KEY = 'megaEthTriviaUnlocked';
+
 const getInitialUnlockState = () => {
   try {
     const savedState = localStorage.getItem(UNLOCK_STORAGE_KEY);
@@ -37,10 +34,21 @@ const getInitialUnlockState = () => {
   }
 };
 
+const getInitialGamesPlayed = () => {
+  try {
+    const savedGames = localStorage.getItem(GAMES_PLAYED_KEY);
+    return savedGames ? parseInt(savedGames, 10) : 0;
+  } catch (error) { return 0; }
+};
+
 
 export default function App() {
     const [isUnlocked, setIsUnlocked] = useState(getInitialUnlockState);
     const [view, setView] = useState(VIEWS.CONFIG);
+
+    const [gamesPlayed, setGamesPlayed] = useState(getInitialGamesPlayed); 
+    const MAX_GAMES = 2; // 
+
     const [config, setConfig] = useState({
         categories: [FIXED_CATEGORY],
         difficulty: 'Medium',
@@ -61,7 +69,13 @@ export default function App() {
     const [hasSubmittedWallet, setHasSubmittedWallet] = useState(false);
     const [isCheckingStatus, setIsCheckingStatus] = useState(true); 
 
-    // --- useEffects (No changes here) ---
+   
+
+    useEffect(() => {
+        localStorage.setItem(GAMES_PLAYED_KEY, gamesPlayed.toString());
+    }, [gamesPlayed]);
+
+
     useEffect(() => {
       localStorage.setItem(SCORE_STORAGE_KEY, JSON.stringify(score));
     }, [score]);
@@ -72,7 +86,7 @@ export default function App() {
         }
     }, [isUnlocked]);
 
-    // --- SUPABASE SUBMISSION CHECK ---
+    
     // This hook now checks Supabase for the user's submission status
     useEffect(() => {
         if (isAuthReady && authError) {
@@ -102,8 +116,7 @@ export default function App() {
         }
     }, [isUnlocked, isAuthReady, supabase, userId, authError, setError]);
 
-    // --- NEW HANDLE UNLOCK ---
-    // This is called by PasswordGate.
+
     const handleUnlock = async () => {
         const authSuccess = await signInAsGuest();
         if (authSuccess) {
@@ -114,6 +127,12 @@ export default function App() {
     
     // --- UNCHANGED FUNCTIONS (startTrivia, handleAnswer, resetGame, renderBaseView) ---
     const startTrivia = async () => {
+
+        if (gamesPlayed >= MAX_GAMES) {
+            setError(`You have reached the limit of ${MAX_GAMES} games.`);
+            return;
+        }
+        
         if (IS_API_KEY_MISSING) {
             setError("API key is missing. Please add VITE_GEMINI_API_KEY to your env.local file");
             return;
@@ -161,6 +180,8 @@ export default function App() {
                     score={score}
                     setScore={setScore}
                     hasSubmittedWallet={hasSubmittedWallet} 
+                    gamesPlayed={gamesPlayed}
+                    maxGames={MAX_GAMES}
                 />;
             case VIEWS.LOADING:
                 return <LoadingScreen />;

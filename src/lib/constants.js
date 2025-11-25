@@ -41,7 +41,7 @@ export const CATEGORIES = [
     'MegaETH Architecture'
 ];
 
-export const FIXED_CATEGORY = 'MegaETH Architecture';
+export const FIXED_CATEGORY = null ;
 export const REWARD_THRESHOLD = 100;
 export const CORRECT_PASSWORD = 'B4201C3F91A2';
 
